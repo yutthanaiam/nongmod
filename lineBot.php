@@ -40,7 +40,75 @@ class Linebot {
 	}
 	
 	public function reply($text){
+		$content = file_get_contents('php://input');
+		$arrJson = json_decode($content, true);
 		$api = $this->apiReply;
+ 
+		$arrHeader = array();
+		$arrHeader[] = "Content-Type: application/json";
+		$arrHeader[] = "Authorization: Bearer {$channelAccessToken}";
+		$_msg = $arrJson['events'][0]['message']['text'];
+ 
+ 
+		$api_key="pWsJkN9rP4hCBlkqIsyCG0k85yyDj25_";
+		$url = 'https://api.mlab.com/api/1/databases/duckduck/collections/linebot?apiKey='.$api_key.'';
+		$json = file_get_contents('https://api.mlab.com/api/1/databases/duckduck/collections/linebot?apiKey='.$api_key.'&q={"question":"'.$_msg.'"}');
+		$data = json_decode($json);
+		$isData=sizeof($data);
+ 
+if (strpos($_msg, 'สอนหน่อย') !== false) {
+	if (strpos($_msg, 'สอนหน่อย') !== false) {
+		$x_tra = str_replace("สอนหน่อย","", $_msg);
+		$pieces = explode("|", $x_tra);
+		$_question=str_replace("[","",$pieces[0]);
+		$_answer=str_replace("]","",$pieces[1]);
+    //Post New Data
+    $newData = json_encode(
+      array(
+        'question' => $_question,
+        'answer'=> $_answer
+      )
+    );
+    $opts = array(
+      'http' => array(
+          'method' => "POST",
+          'header' => "Content-type: application/json",
+          'content' => $newData
+       )
+    );
+    $context = stream_context_create($opts);
+    $returnValue = file_get_contents($url,false,$context);
+    $arrPostData = array();
+    $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
+    $arrPostData['messages'][0]['type'] = "text";
+    $arrPostData['messages'][0]['text'] = 'ขอบคุณที่สอนครับ';
+  }
+}else{
+  if($isData >0){
+   foreach($data as $rec){
+    $arrPostData = array();
+    $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
+    $arrPostData['messages'][0]['type'] = "text";
+    $arrPostData['messages'][0]['text'] = $rec->answer;
+   }
+  }else{
+    $arrPostData = array();
+    $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
+    $arrPostData['messages'][0]['type'] = "text";
+    $arrPostData['messages'][0]['text'] = 'คร๊าบบ คุณสามารถสอนผมให้ฉลาดได้เพียงพิมพ์: สอนหน่อย[คำถาม|คำตอบ]';
+  }
+}
+$channel = curl_init();
+curl_setopt($channel, CURLOPT_URL,$apiReply);
+curl_setopt($channel, CURLOPT_HEADER, false);
+curl_setopt($channel, CURLOPT_POST, true);
+curl_setopt($channel, CURLOPT_HTTPHEADER, $arrHeader);
+curl_setopt($channel, CURLOPT_POSTFIELDS, json_encode($arrPostData));
+curl_setopt($channel, CURLOPT_RETURNTRANSFER,true);
+curl_setopt($channel, CURLOPT_SSL_VERIFYPEER, false);
+$result = curl_exec($channel);
+curl_close ($channel);
+
 		$webhook = $this->webhookEventObject;
 		$replyToken = $webhook->{"events"}[0]->{"replyToken"}; 
 		$body["replyToken"] = $replyToken;
